@@ -1,5 +1,7 @@
 
 import * as THREE from 'three'
+import { Texture } from 'three';
+import { RGB_ETC1_Format } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import Stats from 'three/examples/jsm/libs/stats.module'
 
@@ -12,16 +14,21 @@ const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
+
 const controls = new OrbitControls(camera, renderer.domElement);
 
-//Ambient light (for now illuminates the stars)
-const light = new THREE.AmbientLight(0xffffff, 1); //(color, intensity)
-scene.add(light);
+//Ambient Light
+const ambLight = new THREE.AmbientLight(0xffffff, 0.5); //(color, intensity)
+scene.add(ambLight);
+//Sunlight
+const ptLight = new THREE.PointLight(0xffa733, 1);
+scene.add(ptLight);
+ptLight.position.x = -40;
 
 //Star generation logic
 function addStar(){
-    const geometry = new THREE.SphereGeometry(0.25, 24, 24);
-    const material = new THREE.MeshStandardMaterial({color: 0xffffff});
+    const geometry = new THREE.SphereGeometry(0.2, 24, 24);
+    const material = new THREE.MeshStandardMaterial({color: 0xffffff, emissive: 0xffffff, emissiveIntensity: 0.9});
     const star = new THREE.Mesh(geometry, material);
   
     const[x, y, z] = Array(3).fill().map(() => THREE.MathUtils.randFloatSpread(500));
@@ -30,104 +37,120 @@ function addStar(){
   }
   Array(200).fill().forEach(addStar);
 
-//Sun
-const sunGeometry = new THREE.SphereGeometry(15);
-const sunMaterial = new THREE.MeshBasicMaterial({
-    color:0xFFD500,
-    wireframe: true
-});
+//BG
+const spaceTexture = new THREE.TextureLoader().load('images/backgrounds/2k_stars.jpg');
+scene.background = spaceTexture;
 
-const sun = new THREE.Mesh(sunGeometry, sunMaterial);
+//Sun
+const sunTexture = new THREE.TextureLoader().load('images/textures/8k_sun.jpg');
+sunTexture.anisotropy = 16;
+const sun = new THREE.Mesh(
+  new THREE.SphereGeometry(15, 50, 32),
+  new THREE.MeshStandardMaterial({
+    map: sunTexture,
+    emissive: 0xff8b3d,
+    emissiveIntensity: 0.6, 
+  })
+);
+
 scene.add(sun);
 sun.position.x = -40;
 
-//planet1
-const p1geometry = new THREE.SphereGeometry(0.6);
-const p1material = new THREE.MeshBasicMaterial({
-    color:0x9D9880,
-    wireframe: true
-});
+//Mercury
+const mercuryTexture = new THREE.TextureLoader().load('images/textures/2k_mercury.jpg');
+const mercury = new THREE.Mesh(
+  new THREE.SphereGeometry(0.6),
+  new THREE.MeshStandardMaterial({
+    map: mercuryTexture, 
+  })
+);
 
-const planet1 = new THREE.Mesh(p1geometry, p1material);
-scene.add(planet1);
-planet1.position.x = -16;
+scene.add(mercury);
+mercury.position.x = -16;
 
-//planet2
-const p2geometry = new THREE.SphereGeometry();
-const p2material = new THREE.MeshBasicMaterial({
-    color:0xff0000,
-    wireframe: true
-});
+//Venus
+const venusTexture = new THREE.TextureLoader().load('images/textures/2k_venus_atmosphere.jpg');
+const venus = new THREE.Mesh(
+  new THREE.SphereGeometry(1),
+  new THREE.MeshStandardMaterial({
+    map: venusTexture, 
+  })
+);
 
-const planet2 = new THREE.Mesh(p2geometry, p2material);
-scene.add(planet2);
-planet2.position.x = -8;
+scene.add(venus);
+venus.position.x = -8;
 
-//planet3
-const p3geometry = new THREE.SphereGeometry();
-const p3material = new THREE.MeshBasicMaterial({
-    color:0x0000FF,
-    wireframe: true
-});
+//Earth
+const earthTexture = new THREE.TextureLoader().load('images/textures/2k_earth_daymap.jpg');
+const earth = new THREE.Mesh(
+  new THREE.SphereGeometry(1),
+  new THREE.MeshStandardMaterial({
+    map: earthTexture, 
+  })
+);
 
-const planet3 = new THREE.Mesh(p3geometry, p3material);
-scene.add(planet3);
-planet3.position.x = 0;
+scene.add(earth);
+earth.position.x = 0;
 
-//planet4
-const p4geometry = new THREE.SphereGeometry(0.85);
-const p4material = new THREE.MeshBasicMaterial({
-    color:0xFF8900,
-    wireframe: true
-});
+//Mars
+const marsTexture = new THREE.TextureLoader().load('images/textures/2k_mars.jpg');
+const mars = new THREE.Mesh(
+  new THREE.SphereGeometry(0.85),
+  new THREE.MeshStandardMaterial({
+    map: marsTexture, 
+  })
+);
 
-const planet4 = new THREE.Mesh(p4geometry, p4material);
-scene.add(planet4);
-planet4.position.x = 8;
+scene.add(mars);
+mars.position.x = 8;
 
-//planet5
-const p5geometry = new THREE.SphereGeometry(2);
-const p5material = new THREE.MeshBasicMaterial({
-    color:0xBE996D,
-    wireframe: true
-});
+//Jupiter
+const jupiterTexture = new THREE.TextureLoader().load('images/textures/2k_jupiter.jpg');
+const jupiter = new THREE.Mesh(
+  new THREE.SphereGeometry(2),
+  new THREE.MeshStandardMaterial({
+    map: jupiterTexture, 
+  })
+);
 
-const planet5 = new THREE.Mesh(p5geometry, p5material);
-scene.add(planet5);
-planet5.position.x = 16;
+scene.add(jupiter);
+jupiter.position.x = 16;
 
-//planet6
-const p6geometry = new THREE.SphereGeometry(1.7);
-const p6material = new THREE.MeshBasicMaterial({
-    color:0xDDBC51,
-    wireframe: true
-});
+//Saturn
+const saturnTexture = new THREE.TextureLoader().load('images/textures/2k_saturn.jpg');
+const saturn = new THREE.Mesh(
+  new THREE.SphereGeometry(1.7),
+  new THREE.MeshStandardMaterial({
+    map: saturnTexture, 
+  })
+);
 
-const planet6 = new THREE.Mesh(p6geometry, p6material);
-scene.add(planet6);
-planet6.position.x = 24;
+scene.add(saturn);
+saturn.position.x = 24;
 
-//planet7
-const p7geometry = new THREE.SphereGeometry(1.4);
-const p7material = new THREE.MeshBasicMaterial({
-    color:0xB5F9FB,
-    wireframe: true
-});
+//Uranus
+const uranusTexture = new THREE.TextureLoader().load('images/textures/2k_uranus.jpg');
+const uranus = new THREE.Mesh(
+  new THREE.SphereGeometry(1.4),
+  new THREE.MeshStandardMaterial({
+    map: uranusTexture, 
+  })
+);
 
-const planet7 = new THREE.Mesh(p7geometry, p7material);
-scene.add(planet7);
-planet7.position.x = 32;
+scene.add(uranus);
+uranus.position.x = 32;
 
-//planet8
-const p8geometry = new THREE.SphereGeometry(0.4);
-const p8material = new THREE.MeshBasicMaterial({
-    color:0x6700FF,
-    wireframe: true
-});
+//Neptune
+const neptuneTexture = new THREE.TextureLoader().load('images/textures/2k_neptune.jpg');
+const neptune = new THREE.Mesh(
+  new THREE.SphereGeometry(0.4),
+  new THREE.MeshStandardMaterial({
+    map: neptuneTexture, 
+  })
+);
 
-const planet8 = new THREE.Mesh(p8geometry, p8material);
-scene.add(planet8);
-planet8.position.x = 40;
+scene.add(neptune);
+neptune.position.x = 40;
 
 
 //----------------------------------
@@ -145,14 +168,14 @@ document.body.appendChild(stats.dom);
 var animate = function () {
     requestAnimationFrame(animate);
     sun.rotation.y += 0.001;
-    planet1.rotation.y += 0.01;
-    planet2.rotation.y += 0.01;
-    planet3.rotation.y += 0.01;
-    planet4.rotation.y += 0.01;
-    planet5.rotation.y += 0.01;
-    planet6.rotation.y += 0.01;
-    planet7.rotation.y += 0.01;
-    planet8.rotation.y += 0.01;
+    mercury.rotation.y += 0.01;
+    venus.rotation.y += 0.01;
+    earth.rotation.y += 0.01;
+    mars.rotation.y += 0.01;
+    jupiter.rotation.y += 0.01;
+    saturn.rotation.y += 0.01;
+    uranus.rotation.y += 0.01;
+    neptune.rotation.y += 0.01;
     controls.update();
     render();
     stats.update();
