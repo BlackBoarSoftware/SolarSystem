@@ -1,6 +1,6 @@
 
 import * as THREE from 'three'
-import { Texture } from 'three';
+import { DoubleSide, Texture } from 'three';
 import { RGB_ETC1_Format } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import Stats from 'three/examples/jsm/libs/stats.module'
@@ -42,7 +42,7 @@ scene.background = spaceTexture;
 
 //Sun
 const sunTexture = new THREE.TextureLoader().load('images/textures/8k_sun.jpg');
-sunTexture.anisotropy = 16;
+sunTexture.anisotropy = renderer.capabilities.getMaxAnisotropy();
 const sun = new THREE.Mesh(
   new THREE.SphereGeometry(15, 50, 32),
   new THREE.MeshStandardMaterial({
@@ -53,6 +53,7 @@ const sun = new THREE.Mesh(
 );
 
 scene.add(sun);
+
 
 //Each planet is the child of an empty three object referred to as "pivot". This pivot is rotated in the
 //animate function in order to make the planet orbit 
@@ -93,10 +94,34 @@ const earth = new THREE.Mesh(
     map: earthTexture, 
   })
 );
+const earthCloudsTexture = new THREE.TextureLoader().load('images/textures/2k_earth_clouds.jpg');
+const earthClouds = new THREE.Mesh(
+  new THREE.SphereGeometry(1.05),
+  new THREE.MeshStandardMaterial({
+    map: earthCloudsTexture, 
+    alphaMap: earthCloudsTexture,
+    transparent: true,
+  })
+);
+
+//Moon
+const moonTexture = new THREE.TextureLoader().load('images/textures/2k_moon.jpg');
+const moonPivot = new THREE.Object3D();
+const moon = new THREE.Mesh(
+  new THREE.SphereGeometry(0.15),
+  new THREE.MeshStandardMaterial({
+    map: moonTexture, 
+  })
+);
 
 scene.add(earthPivot);
 earthPivot.add(earth);
 earth.position.x = 46;
+earthPivot.add(earthClouds);
+earthClouds.position.x = 46;
+earth.add(moonPivot);
+moonPivot.add(moon);
+moon.position.x = 2;
 
 //Mars
 const marsTexture = new THREE.TextureLoader().load('images/textures/2k_mars.jpg');
@@ -135,10 +160,21 @@ const saturn = new THREE.Mesh(
     map: saturnTexture, 
   })
 );
+const saturnRingTexture = new THREE.TextureLoader().load('images/textures/saturnRingTexture.jpg');
+const saturnRing = new THREE.Mesh(
+  new THREE.RingGeometry(2.5, 3.5, 30),
+  new THREE.MeshStandardMaterial({
+    map: saturnRingTexture,
+    side: THREE.DoubleSide,
+  })
+);
 
 scene.add(saturnPivot);
 saturnPivot.add(saturn);
 saturn.position.x = 70;
+saturn.add(saturnRing);
+saturnRing.rotation.x = Math.PI/2;
+
 
 //Uranus
 const uranusTexture = new THREE.TextureLoader().load('images/textures/2k_uranus.jpg');
@@ -180,7 +216,6 @@ window.addEventListener('resize', () => {
 
 const stats = Stats();
 document.body.appendChild(stats.dom);
-
 var animate = function () {
     requestAnimationFrame(animate);
     sun.rotation.y += 0.001;
@@ -190,6 +225,8 @@ var animate = function () {
     venusPivot.rotateY(0.0035);
     earth.rotation.y += 0.01;
     earthPivot.rotateY(0.003);
+    earthClouds.rotation.y += 0.006;
+    moonPivot.rotateY(-0.004);
     mars.rotation.y += 0.01;
     marsPivot.rotateY(0.0025);
     jupiter.rotation.y += 0.01;
