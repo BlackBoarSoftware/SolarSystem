@@ -19,15 +19,16 @@ document.body.appendChild(renderer.domElement);
 
 
 const controls = new OrbitControls(camera, renderer.domElement);
-
+/* #region Lights */
 //Ambient Light
 const ambLight = new THREE.AmbientLight(0xffffff, 0.3); //(color, intensity)
 scene.add(ambLight);
 //Sunlight
 const ptLight = new THREE.PointLight(0xffa733, 1.5);
 scene.add(ptLight);
+/* #endregion */
 
-//Star generation logic
+/* #region Star generation logic */
 function addStar(){
     const geometry = new THREE.SphereGeometry(0.2, 24, 24);
     const material = new THREE.MeshStandardMaterial({color: 0xffffff, emissive: 0xffffff, emissiveIntensity: 0.9});
@@ -38,12 +39,13 @@ function addStar(){
     scene.add(star);
   }
   Array(200).fill().forEach(addStar);
+  /* #endregion */
 
 //BG
 const spaceTexture = new THREE.TextureLoader().load('images/backgrounds/2k_stars.jpg');
 scene.background = spaceTexture;
 
-//Sun
+/* #region Sun */
 const sunTexture = new THREE.TextureLoader().load('images/textures/8k_sun.jpg');
 sunTexture.anisotropy = renderer.capabilities.getMaxAnisotropy();
 const sun = new THREE.Mesh(
@@ -56,12 +58,15 @@ const sun = new THREE.Mesh(
 );
 
 scene.add(sun);
+/* #endregion */
 
 
-//Each planet is the child of an empty three object referred to as "pivot". This pivot is rotated in the
-//animate function in order to make the planet orbit 
+/*
+*Each planet is the child of an empty three object referred to as "pivot". This pivot is rotated in the
+*animate function in order to make the planet orbit 
+*/
 
-//Mercury
+/* #region Mercury */
 const mercuryTexture = new THREE.TextureLoader().load('images/textures/2k_mercury.jpg');
 const mercuryPivot = new THREE.Object3D();
 const mercury = new THREE.Mesh(
@@ -84,8 +89,9 @@ mercuryPivot.add(mercury);
 mercury.position.x = 30;
 scene.add(mercuryOrbit);
 mercuryOrbit.rotation.x = Math.PI/2;
+/* #endregion */
 
-//Venus
+/* #region Venus */
 const venusTexture = new THREE.TextureLoader().load('images/textures/2k_venus_atmosphere.jpg');
 const venusPivot = new THREE.Object3D();
 const venus = new THREE.Mesh(
@@ -108,8 +114,9 @@ venusPivot.add(venus);
 venus.position.x = 38;
 scene.add(venusOrbit);
 venusOrbit.rotation.x = Math.PI/2;
+/* #endregion */
 
-//Earth
+/* #region Earth */
 const earthTexture = new THREE.TextureLoader().load('images/textures/2k_earth_daymap.jpg');
 const earthPivot = new THREE.Object3D();
 const earth = new THREE.Mesh(
@@ -156,8 +163,9 @@ moonPivot.add(moon);
 moon.position.x = 2;
 scene.add(earthOrbit);
 earthOrbit.rotation.x = Math.PI/2;
+/* #endregion */
 
-//Mars
+/* #region Mars */
 const marsTexture = new THREE.TextureLoader().load('images/textures/2k_mars.jpg');
 const marsPivot = new THREE.Object3D();
 const mars = new THREE.Mesh(
@@ -180,8 +188,9 @@ marsPivot.add(mars);
 mars.position.x = 54;
 scene.add(marsOrbit);
 marsOrbit.rotation.x = Math.PI/2;
+/* #endregion */
 
-//Jupiter
+/* #region Jupiter */
 const jupiterTexture = new THREE.TextureLoader().load('images/textures/2k_jupiter.jpg');
 const jupiterPivot = new THREE.Object3D();
 const jupiter = new THREE.Mesh(
@@ -205,7 +214,9 @@ jupiter.position.x = 62;
 scene.add(jupiterOrbit);
 jupiterOrbit.rotation.x = Math.PI/2;
 
-//Saturn
+/* #endregion */
+
+/* #region Saturn */
 const saturnTexture = new THREE.TextureLoader().load('images/textures/2k_saturn.jpg');
 const saturnPivot = new THREE.Object3D();
 const saturn = new THREE.Mesh(
@@ -238,9 +249,9 @@ saturn.add(saturnRing);
 saturnRing.rotation.x = Math.PI/2;
 scene.add(saturnOrbit);
 saturnOrbit.rotation.x = Math.PI/2;
+/* #endregion */
 
-
-//Uranus
+/* #region Uranus */
 const uranusTexture = new THREE.TextureLoader().load('images/textures/2k_uranus.jpg');
 const uranusPivot = new THREE.Object3D();
 const uranus = new THREE.Mesh(
@@ -263,8 +274,9 @@ uranusPivot.add(uranus);
 uranus.position.x = 78;
 scene.add(uranusOrbit);
 uranusOrbit.rotation.x = Math.PI/2;
+/* #endregion */
 
-//Neptune
+/* #region Neptune */
 const neptuneTexture = new THREE.TextureLoader().load('images/textures/2k_neptune.jpg');
 const neptunePivot = new THREE.Object3D();
 const neptune = new THREE.Mesh(
@@ -287,6 +299,7 @@ neptunePivot.add(neptune);
 neptune.position.x = 86;
 scene.add(neptuneOrbit);
 neptuneOrbit.rotation.x = Math.PI/2;
+/* #endregion */
 
 
 //----------------------------------

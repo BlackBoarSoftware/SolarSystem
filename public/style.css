@@ -2,8 +2,7 @@ body {
     overflow: hidden;
     margin: 0px;
     padding: 0px;
-}
-  
+} 
 canvas {
     position: fixed;
     top: 0;
