@@ -5,12 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Solar System</title>
-    <style>
-        body {
-            overflow: hidden;
-            margin:0px;
-        }
-    </style>
+    <link rel='stylesheet' href='style.css'></link>
      <script type="importmap">
         {
           "imports": {
@@ -23,5 +18,17 @@
 </head>
 <body>
     <script type="module" src="client.js"></script>
+        <div class='planetbar'>
+            <button onclick="zoomToBody()">Sun</button>
+            <button onclick="zoomToBody()">Mercury</button>
+            <button onclick="zoomToBody()">Venus</button>
+            <button onclick="zoomToBody()">Earth</button>
+            <button onclick="zoomToBody()">Moon</button>
+            <button onclick="zoomToBody()">Mars</button>
+            <button onclick="zoomToBody()">Jupiter</button>
+            <button onclick="zoomToBody()">Saturn</button>
+            <button onclick="zoomToBody()">Uranus</button>
+            <button onclick="zoomToBody()">Neptune</button>
+        </div>
 </body>
 </html>

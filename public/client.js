@@ -9,8 +9,11 @@ const scene = new THREE.Scene();
 
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 500);
 camera.position.z = 50;
+camera.position.y = 50;
+camera.rotation.x = Math.Pi/4;
 
-const renderer = new THREE.WebGLRenderer();
+const renderer = new THREE.WebGLRenderer({antialias: true});
+renderer.setPixelRatio( window.devicePixelRatio );
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
@@ -57,6 +60,7 @@ scene.add(sun);
 
 //Each planet is the child of an empty three object referred to as "pivot". This pivot is rotated in the
 //animate function in order to make the planet orbit 
+
 //Mercury
 const mercuryTexture = new THREE.TextureLoader().load('images/textures/2k_mercury.jpg');
 const mercuryPivot = new THREE.Object3D();
@@ -66,10 +70,20 @@ const mercury = new THREE.Mesh(
     map: mercuryTexture, 
   })
 );
+const mercuryOrbit = new THREE.Mesh(
+  new THREE.TorusGeometry(30, 0.03, 4, 120),
+  new THREE.MeshBasicMaterial({
+    color: 0xffffff,
+    transparent:true,
+    opacity : 0.2,
+  })
+);
 
 scene.add(mercuryPivot);
 mercuryPivot.add(mercury);
 mercury.position.x = 30;
+scene.add(mercuryOrbit);
+mercuryOrbit.rotation.x = Math.PI/2;
 
 //Venus
 const venusTexture = new THREE.TextureLoader().load('images/textures/2k_venus_atmosphere.jpg');
@@ -80,10 +94,20 @@ const venus = new THREE.Mesh(
     map: venusTexture, 
   })
 );
+const venusOrbit = new THREE.Mesh(
+  new THREE.TorusGeometry(38, 0.03, 4, 120),
+  new THREE.MeshBasicMaterial({
+    color: 0xffffff,
+    transparent:true,
+    opacity : 0.2,
+  })
+);
 
 scene.add(venusPivot);
 venusPivot.add(venus);
 venus.position.x = 38;
+scene.add(venusOrbit);
+venusOrbit.rotation.x = Math.PI/2;
 
 //Earth
 const earthTexture = new THREE.TextureLoader().load('images/textures/2k_earth_daymap.jpg');
@@ -101,6 +125,14 @@ const earthClouds = new THREE.Mesh(
     map: earthCloudsTexture, 
     alphaMap: earthCloudsTexture,
     transparent: true,
+  })
+);
+const earthOrbit = new THREE.Mesh(
+  new THREE.TorusGeometry(46, 0.03, 4, 120),
+  new THREE.MeshBasicMaterial({
+    color: 0xffffff,
+    transparent:true,
+    opacity : 0.2,
   })
 );
 
@@ -122,6 +154,8 @@ earthClouds.position.x = 46;
 earth.add(moonPivot);
 moonPivot.add(moon);
 moon.position.x = 2;
+scene.add(earthOrbit);
+earthOrbit.rotation.x = Math.PI/2;
 
 //Mars
 const marsTexture = new THREE.TextureLoader().load('images/textures/2k_mars.jpg');
@@ -132,10 +166,20 @@ const mars = new THREE.Mesh(
     map: marsTexture, 
   })
 );
+const marsOrbit = new THREE.Mesh(
+  new THREE.TorusGeometry(54, 0.03, 4, 120),
+  new THREE.MeshBasicMaterial({
+    color: 0xffffff,
+    transparent:true,
+    opacity : 0.2,
+  })
+);
 
 scene.add(marsPivot);
 marsPivot.add(mars);
 mars.position.x = 54;
+scene.add(marsOrbit);
+marsOrbit.rotation.x = Math.PI/2;
 
 //Jupiter
 const jupiterTexture = new THREE.TextureLoader().load('images/textures/2k_jupiter.jpg');
@@ -146,10 +190,20 @@ const jupiter = new THREE.Mesh(
     map: jupiterTexture, 
   })
 );
+const jupiterOrbit = new THREE.Mesh(
+  new THREE.TorusGeometry(62, 0.03, 4, 120),
+  new THREE.MeshBasicMaterial({
+    color: 0xffffff,
+    transparent:true,
+    opacity : 0.2,
+  })
+);
 
 scene.add(jupiterPivot);
 jupiterPivot.add(jupiter);
 jupiter.position.x = 62;
+scene.add(jupiterOrbit);
+jupiterOrbit.rotation.x = Math.PI/2;
 
 //Saturn
 const saturnTexture = new THREE.TextureLoader().load('images/textures/2k_saturn.jpg');
@@ -168,12 +222,22 @@ const saturnRing = new THREE.Mesh(
     side: THREE.DoubleSide,
   })
 );
+const saturnOrbit = new THREE.Mesh(
+  new THREE.TorusGeometry(70, 0.03, 4, 120),
+  new THREE.MeshBasicMaterial({
+    color: 0xffffff,
+    transparent:true,
+    opacity : 0.2,
+  })
+);
 
 scene.add(saturnPivot);
 saturnPivot.add(saturn);
 saturn.position.x = 70;
 saturn.add(saturnRing);
 saturnRing.rotation.x = Math.PI/2;
+scene.add(saturnOrbit);
+saturnOrbit.rotation.x = Math.PI/2;
 
 
 //Uranus
@@ -185,10 +249,20 @@ const uranus = new THREE.Mesh(
     map: uranusTexture, 
   })
 );
+const uranusOrbit = new THREE.Mesh(
+  new THREE.TorusGeometry(78, 0.03, 4, 120),
+  new THREE.MeshBasicMaterial({
+    color: 0xffffff,
+    transparent:true,
+    opacity : 0.2,
+  })
+);
 
 scene.add(uranusPivot);
 uranusPivot.add(uranus);
 uranus.position.x = 78;
+scene.add(uranusOrbit);
+uranusOrbit.rotation.x = Math.PI/2;
 
 //Neptune
 const neptuneTexture = new THREE.TextureLoader().load('images/textures/2k_neptune.jpg');
@@ -199,10 +273,20 @@ const neptune = new THREE.Mesh(
     map: neptuneTexture, 
   })
 );
+const neptuneOrbit = new THREE.Mesh(
+  new THREE.TorusGeometry(86, 0.03, 4, 120),
+  new THREE.MeshBasicMaterial({
+    color: 0xffffff,
+    transparent:true,
+    opacity : 0.2,
+  })
+);
 
 scene.add(neptunePivot);
 neptunePivot.add(neptune);
 neptune.position.x = 86;
+scene.add(neptuneOrbit);
+neptuneOrbit.rotation.x = Math.PI/2;
 
 
 //----------------------------------

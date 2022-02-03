@@ -1,0 +1,24 @@
+body {
+    overflow: hidden;
+    margin: 0px;
+    padding: 0px;
+}
+  
+canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+.planetbar {
+    width: 10vw !important;
+    color: white;
+    z-index: 99;
+    position: absolute;
+    width: 100%;
+    margin: 120px auto;
+    padding: 0px;  
+}
+button {
+    display: block;
+    width: 100%;
+}
