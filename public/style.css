@@ -8,7 +8,11 @@ canvas {
     top: 0;
     left: 0;
 }
-.planetbar {
+/*
+TODO create main div and put the properties that make the ui stay in place and show in front of the canvas.
+TODO get .wmk out of .planet-buttons
+*/
+.planet-buttons {
     width: 10vw !important;
     color: white;
     z-index: 99;
@@ -20,4 +24,9 @@ canvas {
 button {
     display: block;
     width: 100%;
+}
+.wmk{
+    font-family: sans-serif;
+    font-size: 0.85rem;
+    opacity: 0.3;
 }
